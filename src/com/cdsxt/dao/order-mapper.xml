@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里是命名空间，防止sql的id冲突，一般配置为对应的接口名 -->
+<mapper namespace="com.cdsxt.dao.OrderDao">
+	<insert id="insertOrderInfo">
+		insert into order_info
+		values (
+		#{orderRo.oid},#{orderRo.sumPrice},#{orderRo.orderTime},
+		#{orderRo.state},#{orderRo.name},#{orderRo.phone},
+		#{orderRo.addr},#{orderRo.uid},null,null
+		)
+	</insert>
+	<insert id="insertOrderProductListInfo" >
+		insert into order_product_info
+		(oid,pid,count,buy_price)
+		VALUES 
+		<foreach collection="param1" item="pro" separator=",">
+			(
+			#{param2},
+			#{pro.pid},
+			#{pro.pcount},
+			#{pro.pprice}
+			)
+		</foreach>
+	</insert>
+	<resultMap type="orderRo" id="orderInfoResultMap" autoMapping="true">
+		<id column="oid" property="oid"/>
+		<result column="sum_price" property="sumPrice"/>
+		<result column="order_time" property="orderTime"/>
+	</resultMap>
+	
+	<select id="selectById" resultMap="orderInfoResultMap">
+		select * from order_info oi
+		where oi.oid=#{_parmeter}
+	</select>
+	
+	<update id="updateOrderState">
+		update order_info 
+		set state=#{param3}
+		where oid=#{param1}
+		and state=#{param2};
+	</update>
+	
+		<select id="selectOrderRo" resultType="com.cdsxt.ro.OrderRo">
+		select * from order_info oi
+		where oi.uid=#{userId}
+	</select>
+	
+	
+</mapper>

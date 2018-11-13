@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdsxt.dao.OrderProducDao">
+	
+	<insert id="insertOrderProducRo">
+		insert into order_product_info values
+  		<foreach collection="orderProducRoList" item="clien" separator="," index="index">
+  			(#{clien.id},#{clien.oid},#{clien.pid},#{clien.count},#{clien.buy_price})
+  		</foreach>
+		
+	</insert>
+	
+</mapper>

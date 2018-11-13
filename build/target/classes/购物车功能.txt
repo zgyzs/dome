@@ -1,0 +1,25 @@
+a）登录前：
+1）添加购物车商品cookie
+2）查询购物车商品cookie
+3）修改购物车商品cookie
+4）删除购物车商品cookie
+5）结算选中重新计算价格
+
+1）登录==》把cookie的购物车商品==存入到redis购物车中
+	x）cookie有  redis有===》合并
+	x）cookie有  redis没有
+登录之后==把cookie数据删除
+
+【怎么判断当前购物车操作】==是cookie操作还是redis操作
+判断登录？
+  x）jsp渲染网页是否登录--${curUser==null}????
+  x）js发送ajax请求判断==更准确！
+  x）登录后：在cookie放入登录的标识，方便前台直接判断
+操作购物车？
+1）没有登录===直接【js】操作cookie
+2）有登录===直接【js发送ajax】操作redis
+
+2）添加购物车商品到redis
+3）查询购物车商品到redis
+4）修改购物车商品到redis
+5）删除购物车商品到redis

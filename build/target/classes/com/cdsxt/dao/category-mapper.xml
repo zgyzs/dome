@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdsxt.dao.CategoryDao">
+	
+	<resultMap type="categoryRo" id="categoryRoMap" >
+			<id column="cid" property="cid"/>
+			<result column="cname" property="cname"/>
+		<collection property="listCs" ofType="categorySecondRo" >
+			<id column="csid" property="csid"/>
+			<result column="csname" property="csname"/>
+		</collection> 
+	</resultMap>
+	
+	<select id="selectAll" resultMap="categoryRoMap">
+		select c.cid,c.cname,cs.csid,cs.csname
+		from category c
+		left join category_second cs on c.cid=cs.cid
+	</select>
+	
+</mapper>

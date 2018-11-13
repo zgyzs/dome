@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdsxt.dao.ReceiveUserInfoDao">
+
+	<select id="selectListByUserId"  resultType="map">
+		select * from receive_user_info ru
+		where ru.user_id=#{_parameter}
+	</select>
+	<select id="selectById"  resultType="map">
+		select * from receive_user_info ru
+		where ru.id=#{_parameter}
+	</select>
+	
+</mapper>

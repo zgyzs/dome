@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdsxt.dao.ProductDao">
+	
+	<select id="selectHot" resultType="productRo">
+		SELECT pid,pname,shop_price shopPrice,image
+		from product 
+		where is_hot=1
+		order by pdate desc
+		limit 0,10
+	</select>
+	
+	<select id="selectNew" resultType="productRo">
+		SELECT pid,pname,shop_price shopPrice,image
+		from product 
+		order by pdate desc
+		limit 0,10
+	</select>
+	
+	
+	<resultMap type="productRo" id="productRoMap" autoMapping="true">
+		<collection property="listImage" ofType="String">	
+				<result column="piImage"  />
+		</collection>
+	</resultMap>
+	<select id="selectById" resultMap="productRoMap" >
+		SELECT 
+		p.pid,p.pname,p.market_price marketPrice,p.shop_price shopPrice,
+		p.image,p.pdesc,p.is_hot,p.pdate,
+		pi.image piImage
+		from product p
+		LEFT JOIN product_imgs pi on p.pid=pi.pid 
+		where p.pid=#{param1}
+	</select>
+	
+</mapper>

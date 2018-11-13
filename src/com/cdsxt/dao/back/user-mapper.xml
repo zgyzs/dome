@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 这里是命名空间，防止sql的id冲突，一般配置为对应的接口名 -->
+<mapper namespace="com.cdsxt.dao.back.BackUserDao">
+	
+	<select id="selectUserByName" resultMap="userMap">
+		SELECT uid,name,username,password,'backUser' userType from user_back
+		where username=#{0}
+	</select>
+	<resultMap type="userRo" id="userMap">
+		<id column="uid" property="userId"/>
+		<result column="name" property="userName"/>
+		<result column="userType" property="userType"/>
+		<result column="username" property="uname"/>
+		<result column="password" property="pwd"/>	
+	</resultMap>
+	<select id="selectAll" resultMap="userMap">
+		SELECT uid,name,username,password,'backUser' userType from user_back
+	</select>
+</mapper>

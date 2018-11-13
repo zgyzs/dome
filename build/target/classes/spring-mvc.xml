@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 扫描注解的包，写Controller（action）包 -->
+	<context:component-scan base-package="com.cdsxt.controller" />
+	
+	<!-- 让spring mvc的注解生效 -->
+	<mvc:annotation-driven />
+	<mvc:default-servlet-handler/>
+	
+	
+	<!-- spring mvc 的视图解析器（这里是jsp），也可以配置freemaker等 -->
+	<!-- <bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		id="internalResourceViewResolver">
+		
+		<property name="prefix" value="/page/" />
+		
+		<property name="suffix" value=".jsp" />
+	</bean>  -->
+
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+	<!-- CommonsMultipartResolver MultipartResolver的一个实现，需要commons-fileupload 
+		等 jar 包支持， 但它能在比较旧的 servlet 版本中使用 -->
+	<!-- <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		字符集设置
+		<property name="defaultEncoding" value="utf-8" />
+		文件大小的上限=字节
+		<property name="maxUploadSize" value="10485760000" />
+		内存缓存的文件大小 1m
+		<property name="maxInMemorySize" value="1024000" />
+	</bean> -->
+
+	<!-- spirng、 mvc 的拦截器 -->
+	<!-- <mvc:interceptors>
+		配置登录检查的拦截器
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.cdsxt.controller.t9.LoginIntercepter"></bean>
+		</mvc:interceptor>
+		权限的拦截器
+	
+	</mvc:interceptors> -->
+
+</beans>

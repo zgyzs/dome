@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	<context:property-placeholder location="classpath:db.properties"
+		local-override="true" />
+	<!-- 扫描注解的包，写Controller（action）包 -->
+	<context:component-scan base-package="com.cdsxt.service" />
+	<context:component-scan base-package="com.cdsxt.dao" /><!-- 
+	<context:component-scan base-package="com.cdsxt.redisDao" /> -->
+	<!-- 扫描shopchat聊天模块的bean -->
+	<!-- <context:component-scan base-package="com.cdsxt.shopChat.dao" />
+	<context:component-scan base-package="com.cdsxt.shopChat.service" /> -->
+	 
+	<!-- 数据源-提交数据库连接=通常配置连接池 -->
+	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${uname}" />
+		<property name="password" value="${pwd}" />
+	</bean>
+	<!--mybatis的sessionfactory 的配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="myDataSource" />
+		<!-- 配置参数和结果类型bean所在位置，自动设置别名 -->
+		<property name="typeAliasesPackage" value="com.cdsxt.ro" />
+		<!-- 配置mybatis入口文件 -->
+		<!-- <property name="configLocation" value="classpath:conf/mybatis-config.xml" 
+			/> -->
+		<!-- 自动扫描mybatis的mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/cdsxt/dao/**/*.xml" />
+	</bean>
+	
+	<!-- 扫描mapper(dao)接口 
+	做了3件事
+	a）通过java的动态代理动态的产生com.cdsxt.dao包的下的接口的实现类
+	b)通过反射创建该类的对象
+	c）把该对象放入spring的 bean工厂中我们就可以通过  autoware取出，getbean取出。。。
+	-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	  <property name="basePackage" value="com.cdsxt.dao" />
+	</bean>
+
+	<!-- 定义事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="myDataSource" />
+	</bean>
+	<!--使用注释事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>
